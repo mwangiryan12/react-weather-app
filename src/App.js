@@ -1,18 +1,18 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import Search from './components/city-search/search';
 
 function App() {
-  return (
-    <Router>
-      <Switch>
-        {/* Define route for Detailedforecast.js */}
-        <Route path="/detailed-forecast/:weatherId" component={Detailedforecast} />
-        {/* Other routes */}
-      </Switch>
-    </Router>
-  );
-
   
+  const handleOnSearchChange = (searchData) => {
+    console.log(searchData);
+  }
+
+  return (
+    <div className="container">
+      <Search onSearchChange={handleOnSearchChange} />
+    </div>
+  );
 }
 
 export default App;
