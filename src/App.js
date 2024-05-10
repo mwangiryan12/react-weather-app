@@ -6,6 +6,15 @@ import { WEATHER_API_URL, WEATHER_API_KEY } from "./api";
 import "./App.css";
 
 function App() {
+  const url = 'https://geo.p.rapidapi.com/?ip=200.192.123.145&callback=callback12345';
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '61f3a36370msh64ac9dbcc9c2ba8p1a4a19jsn000269b2b016',
+		'X-RapidAPI-Host': 'geo.p.rapidapi.com'
+	}
+};
+
   const [currentWeather, setCurrentWeather] = useState(null);
   const [forecast, setForecast] = useState(null);
 
