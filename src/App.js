@@ -1,50 +1,52 @@
-
-import './App.css';
-import {WEATHER_API_URL, WEATHER_API_KEY} from ""
-import { useState } from 'react';
-
-import Search from '.compnonents/search/search';
-//import {'api_link'} from '..api';
-import currentWeather from './components/current-weather/current-weather';
-import 
+import { useState } from "react";
+import Search from "./components/search/search";
+import CurrentWeather from "./components/current-weather/current-weather";
+import Forecast from "./components/forecast/forecast";
+import { WEATHER_API_URL, WEATHER_API_KEY } from "./api";
+import "./App.css";
 
 function App() {
-  
-    const[];
-    const[];
-  
-    const handleOnSearch = (searchData) => {
-      //console.log(searchData);
-      const [ lat,lon] = searchData.value.split(" ");
+  const url = 'https://geo.p.rapidapi.com/?ip=200.192.123.145&callback=callback12345';
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '61f3a36370msh64ac9dbcc9c2ba8p1a4a19jsn000269b2b016',
+		'X-RapidAPI-Host': 'geo.p.rapidapi.com'
+	}
+};
 
-    const currentWeatherFetch =  fetch(`{}  )
-    const forecastFetch = fetch()
+  const [currentWeather, setCurrentWeather] = useState(null);
+  const [forecast, setForecast] = useState(null);
+
+  const handleOnSearchChange = (searchData) => {
+    const [lat, lon] = searchData.value.split(" ");
+
+    const currentWeatherFetch = fetch(
+      `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
+    );
+    const forecastFetch = fetch(
+      `${WEATHER_API_URL}/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
+    );
 
     Promise.all([currentWeatherFetch, forecastFetch])
-      .then(async(repsonse)) =>{
-          const weatherResponse = await response[0] .json();
-          const foreacastResponse = await response[1] .json();
+      .then(async (response) => {
+        const weatherResponse = await response[0].json();
+        const forcastResponse = await response[1].json();
 
-        }
-          setCurrentWeather({city: searchData.label, ...weatherResponse);
-          setForecast({city: searchData.label, ...forecastResponse});
-    //api
-   }
-    return (
-      <div className = "container">
-        <Search onSearchChange ={handleOnSearch} />
-        {currentWeather && <currentWeather data={currentWeather}/>}
-        {forecast &&<Forecast data={}/>}
-        
-      </div>
-  
-        
-        
-      
-  
-    )
+        setCurrentWeather({ city: searchData.label, ...weatherResponse });
+        setForecast({ city: searchData.label, ...forcastResponse });
+      })
+      .catch(console.log);
+  };
 
-  
+  return (
+    <div className="container">
+      <Search onSearchChange={handleOnSearchChange} />
+      {currentWeather && <CurrentWeather data={currentWeather} />}
+      {forecast && <Forecast data={forecast} />}
+    </div>
+  );
 }
 
 export default App;
+
